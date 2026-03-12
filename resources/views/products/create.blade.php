@@ -93,7 +93,7 @@
             <textarea name="description" class="w-full border rounded px-3 py-2">{{ old('description') }}</textarea>
         </div>
 
-        <button type="submit" class="btn btn-outline-primary">
+        <button type="submit" class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition">
             Save Product
         </button>
     </form>

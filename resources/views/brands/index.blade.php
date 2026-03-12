@@ -36,7 +36,7 @@
                     <td class="border px-4 py-2">{{ $brand->status ? 'Active' : 'Inactive' }}</td>
                     <td class="border px-4 py-2">
                         <a href="{{ route('brands.edit', $brand->id) }}"
-                           class="btn btn-outline-danger">
+                           class="inline-flex items-center px-3 py-1 border border-red-500 text-red-500 rounded hover:bg-red-500 hover:text-white transition text-sm">
                             Edit
                         </a>
 
@@ -46,7 +46,7 @@
                               onsubmit="return confirm('Delete this brand?')">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-outline-danger">
+                            <button type="submit" class="inline-flex items-center px-3 py-1 border border-red-500 text-red-500 rounded hover:bg-red-500 hover:text-white transition text-sm">
                                 Delete
                             </button>
                         </form>

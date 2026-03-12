@@ -40,7 +40,7 @@
                     <td class="border px-4 py-2">{{ $sale->subtotal }}</td>
                     <td class="border px-4 py-2">{{ $sale->total }}</td>
                     <td class="border px-4 py-2">
-                        <a href="{{ route('sales.show', $sale->id) }}" class="btn btn-outline-primary">
+                        <a href="{{ route('sales.show', $sale->id) }}" class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition">
                             View Invoice
                         </a>
                     </td>

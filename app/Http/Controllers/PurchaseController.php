@@ -22,7 +22,10 @@ class PurchaseController extends Controller
         $suppliers = Supplier::where('status', 1)->get();
         $products = Product::where('status', 1)->get();
 
-        return view('purchases.create', compact('suppliers', 'products'));
+        $latestPurchase = Purchase::latest('id')->first();
+        $nextRefNo = 'PUR-' . str_pad($latestPurchase ? $latestPurchase->id + 1 : 1, 6, '0', STR_PAD_LEFT);
+
+        return view('purchases.create', compact('suppliers', 'products', 'nextRefNo'));
     }
 
     public function store(Request $request)

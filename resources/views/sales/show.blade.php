@@ -5,32 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice - {{ $sale->invoice_no }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body class="bg-gray-100 p-6">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-10">
-                <h1 class="text-3xl font-bold">Electric Store</h1>
+    <div class="max-w-4xl mx-auto">
+        <!-- Invoice Header -->
+        <div class="flex justify-between items-start mb-6">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">Electric Store</h1>
                 <p class="text-gray-600">Sales Invoice</p>
             </div>
-            <div class="col-lg-2">
+            <div class="text-right">
                 <p><strong>Invoice No:</strong> {{ $sale->invoice_no }}</p>
                 <p><strong>Date:</strong> {{ $sale->sale_date }}</p>
                 <p><strong>Cashier:</strong> {{ $sale->user->name ?? 'N/A' }}</p>
             </div>
-            <div class="mb-6">
-                <h2 class="text-lg font-semibold mb-2">Customer Information</h2>
-                @if($sale->customer)
-                    <p><strong>Name:</strong> {{ $sale->customer->name }}</p>
-                    <p><strong>Email:</strong> {{ $sale->customer->email }}</p>
-                    <p><strong>Phone:</strong> {{ $sale->customer->phone }}</p>
-                    <p><strong>Address:</strong> {{ $sale->customer->address }}</p>
-                @else
-                    <p>Walk-in Customer</p>
-                @endif
-            </div>
-            <table class="w-full border border-gray-300 mb-6">
+        </div>
+
+        <!-- Customer Information -->
+        <div class="mb-6 bg-white p-4 rounded-lg shadow-sm">
+            <h2 class="text-lg font-semibold mb-2">Customer Information</h2>
+            @if($sale->customer)
+                <p><strong>Name:</strong> {{ $sale->customer->name }}</p>
+                <p><strong>Email:</strong> {{ $sale->customer->email }}</p>
+                <p><strong>Phone:</strong> {{ $sale->customer->phone }}</p>
+                <p><strong>Address:</strong> {{ $sale->customer->address }}</p>
+            @else
+                <p>Walk-in Customer</p>
+            @endif
+        </div>
+
+        <!-- Items Table -->
+        <table class="w-full border border-gray-300 mb-6 bg-white rounded-lg overflow-hidden">
             <thead class="bg-gray-100">
                 <tr>
                     <th class="border px-4 py-2 text-left">#</th>
@@ -52,7 +57,9 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="flex justify-end">
+
+        <!-- Totals -->
+        <div class="flex justify-end mb-6">
             <div class="w-full max-w-sm">
                 <div class="flex justify-between py-2 border-b">
                     <span>Subtotal</span>
@@ -79,17 +86,15 @@
                 <p>{{ $sale->note }}</p>
             </div>
         @endif
+
         <div class="mt-8 flex gap-3 print:hidden">
-            <a href="{{ route('sales.index') }}" class="bg-gray-700 text-white px-4 py-2 rounded">
+            <a href="{{ route('sales.index') }}" class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800 transition">
                 Back
             </a>
-            <button onclick="window.print()" class="btn btn-outline-primary">
+            <button onclick="window.print()" class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition">
                 Print Invoice
             </button>
         </div>
-        </div>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

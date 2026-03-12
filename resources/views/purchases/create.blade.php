@@ -37,7 +37,7 @@
 
             <div>
                 <label class="block mb-1 font-medium">Reference No</label>
-                <input type="text" name="reference_no" class="w-full border rounded px-3 py-2">
+                <input type="text" name="reference_no" value="{{ old('reference_no', $nextRefNo ?? '') }}" class="w-full border rounded px-3 py-2 bg-gray-50" readonly>
             </div>
         </div>
 
@@ -48,7 +48,7 @@
                     <select name="product_id[]" class="w-full border rounded px-3 py-2">
                         <option value="">Select Product</option>
                         @foreach($products as $product)
-                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                            <option value="{{ $product->id }}" data-cost="{{ $product->cost_price }}">{{ $product->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -81,7 +81,12 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-outline-primary">
+        <div class="mb-4 p-4 bg-gray-50 border rounded text-right">
+            <p class="text-gray-600">Subtotal: <span id="display-subtotal" class="font-medium text-gray-800">0.00</span></p>
+            <h4 class="text-xl font-bold mt-2">Grand Total: <span id="display-total" class="text-blue-600">0.00</span></h4>
+        </div>
+
+        <button type="submit" class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition">
             Save Purchase
         </button>
     </form>
@@ -98,5 +103,45 @@ function addRow() {
 
     wrapper.appendChild(newRow);
 }
+
+function calculateTotal() {
+    let subtotal = 0;
+    const quantities = document.querySelectorAll('[name="quantity[]"]');
+    const costs = document.querySelectorAll('[name="unit_cost[]"]');
+    
+    quantities.forEach((qtyInput, index) => {
+        const qty = parseFloat(qtyInput.value) || 0;
+        const cost = parseFloat(costs[index].value) || 0;
+        subtotal += (qty * cost);
+    });
+
+    const discount = parseFloat(document.querySelector('[name="discount"]').value) || 0;
+    // Purchases don't have tax input in the given HTML, but if it did we would add it:
+    // const tax = parseFloat(document.querySelector('[name="tax"]')?.value) || 0;
+    
+    const total = subtotal - discount;
+
+    document.getElementById('display-subtotal').innerText = subtotal.toFixed(2);
+    document.getElementById('display-total').innerText = total.toFixed(2);
+}
+
+document.addEventListener('input', function(e) {
+    if (e.target.name === 'quantity[]' || e.target.name === 'unit_cost[]' || e.target.name === 'discount') {
+        calculateTotal();
+    }
+});
+
+document.addEventListener('change', function(e) {
+    if (e.target.name === 'product_id[]') {
+        const option = e.target.options[e.target.selectedIndex];
+        const row = e.target.closest('.item-row');
+        const costInput = row.querySelector('[name="unit_cost[]"]');
+        
+        if (option && option.dataset.cost) {
+            costInput.value = option.dataset.cost;
+        }
+        calculateTotal();
+    }
+});
 </script>
 @endsection

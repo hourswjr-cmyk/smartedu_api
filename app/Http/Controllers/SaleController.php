@@ -22,7 +22,10 @@ class SaleController extends Controller
         $customers = Customer::where('status', 1)->get();
         $products = Product::where('status', 1)->get();
 
-        return view('sales.create', compact('customers', 'products'));
+        $latestSale = Sale::latest('id')->first();
+        $nextInvoiceNo = 'INV-' . str_pad($latestSale ? $latestSale->id + 1 : 1, 6, '0', STR_PAD_LEFT);
+
+        return view('sales.create', compact('customers', 'products', 'nextInvoiceNo'));
     }
     public function show(Sale $sale)
     {
