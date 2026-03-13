@@ -30,6 +30,7 @@
 
                     @if(auth()->user()->isCashier())
                         <a href="{{ route('sales.index') }}" class="text-gray-700 font-medium px-3 py-2 rounded border border-gray-300 hover:bg-gray-50 transition">Sales</a>
+                        <a href="{{ route('customers.index') }}" class="text-gray-700 font-medium px-3 py-2 rounded border border-gray-300 hover:bg-gray-50 transition">Customers</a>
                     @endif
 
                     @if(auth()->user()->isStorekeeper())
@@ -64,6 +65,7 @@
 
             @if(auth()->user()->isCashier())
                 <a href="{{ route('sales.index') }}" class="block text-gray-700 font-medium px-3 py-2 rounded hover:bg-gray-50 transition">Sales</a>
+                <a href="{{ route('customers.index') }}" class="block text-gray-700 font-medium px-3 py-2 rounded hover:bg-gray-50 transition">Customers</a>
             @endif
 
             @if(auth()->user()->isStorekeeper())

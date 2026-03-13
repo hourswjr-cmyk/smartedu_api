@@ -34,7 +34,6 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('categories', CategoryController::class);
         Route::resource('brands', BrandController::class);
-        Route::resource('customers', CustomerController::class);
         Route::get('reports/sales', [ReportController::class, 'sales'])->name('reports.sales');
         Route::get('reports/purchases', [ReportController::class, 'purchases'])->name('reports.purchases');
 
@@ -53,6 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('role:admin,cashier')->group(function () {
 
         Route::resource('sales', SaleController::class);
+        Route::resource('customers', CustomerController::class);
 
     });
 
