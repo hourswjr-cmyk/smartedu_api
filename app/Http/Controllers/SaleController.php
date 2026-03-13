@@ -8,6 +8,7 @@ use App\Models\Sale;
 use App\Models\SaleItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class SaleController extends Controller
 {
@@ -72,7 +73,9 @@ class SaleController extends Controller
                 $product = Product::findOrFail($productId);
 
                 if ($product->quantity < $qty) {
-                    abort(422, 'Not enough stock for product: ' . $product->name);
+                    throw ValidationException::withMessages([
+                        'product_id.' . $index => 'Not enough stock for product: ' . $product->name . ' (Available: ' . $product->quantity . ')'
+                    ]);
                 }
 
                 $lineTotal = $qty * $unitPrice;
