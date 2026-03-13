@@ -43,7 +43,6 @@ Route::middleware(['auth'])->group(function () {
     // ADMIN + STOREKEEPER
     Route::middleware('role:admin,storekeeper')->group(function () {
 
-        Route::resource('products', ProductController::class);
         Route::resource('purchases', PurchaseController::class);
         Route::get('reports/low-stock', [ReportController::class, 'lowStock'])->name('reports.low-stock');
 
@@ -53,6 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('role:admin,cashier')->group(function () {
 
         Route::resource('sales', SaleController::class);
+        Route::resource('products', ProductController::class);
 
     });
 
